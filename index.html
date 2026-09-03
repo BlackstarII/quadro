@@ -1,0 +1,3545 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Quadro Borders | Every Wall Starts With Quadro.</title>
+  <meta name="description" content="Egypt's premier brand for 3D embossed wooden relief frames, multi-angle inspections, custom neon borders, and iconic wall art." />
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="quadro-assets/quadro-logo.jpg">
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+    // Instant preloader dismiss
+    (function() {
+      function dismiss() {
+        const p = document.getElementById('site-preloader');
+        const b = document.getElementById('preloader-progress-bar');
+        if (b) b.style.width = '100%';
+        if (p) {
+          p.classList.add('fade-out');
+          setTimeout(() => { if (p && p.parentNode) p.parentNode.removeChild(p); }, 400);
+        }
+      }
+      setTimeout(dismiss, 350);
+      window.addEventListener('load', dismiss);
+    })();
+
+  </script>
+
+  <style>
+    /* ==========================================================================
+       1. CSS TOKENS & DESIGN VARIABLES
+       ========================================================================== */
+    :root {
+      --bg-dark: #05060a;
+      --bg-card: rgba(14, 17, 27, 0.78);
+      --bg-glass: rgba(10, 13, 22, 0.75);
+      --border-glass: rgba(0, 240, 255, 0.16);
+      --border-dim: rgba(255, 255, 255, 0.08);
+
+      --neon-cyan: #00f0ff;
+      --neon-pink: #ff007a;
+      --neon-purple: #9d00ff;
+      --neon-lime: #ccff00;
+      --neon-gold: #ffd700;
+      --neon-red: #ff1a35;
+      --text-main: #f0f4fc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --glow-cyan: 0 0 28px rgba(0, 240, 255, 0.55);
+      --glow-pink: 0 0 28px rgba(255, 0, 122, 0.55);
+
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+
+      --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-fast: 0.18s ease;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      color-scheme: dark;
+      text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      background-image: 
+        radial-gradient(circle at 12% 18%, rgba(0, 240, 255, 0.07) 0%, transparent 42%),
+        radial-gradient(circle at 88% 68%, rgba(157, 0, 255, 0.08) 0%, transparent 46%),
+        radial-gradient(circle at 50% 92%, rgba(255, 0, 122, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button, input, select {
+      font-family: inherit;
+    }
+
+    #bg-particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, rgba(157, 0, 255, 0.06) 45%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      mix-blend-mode: screen;
+      display: none;
+    }
+
+    @media (pointer: fine) {
+      #cursor-glow {
+        display: block;
+      }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #fff;
+    }
+
+    .gradient-text-cyber {
+      background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: cyberHue 9s ease infinite alternate;
+    }
+
+    .gradient-text-gold {
+      background: linear-gradient(135deg, #ffffff 0%, var(--neon-gold) 50%, #ff8c00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-text-pink {
+      background: linear-gradient(135deg, #ffffff 0%, var(--neon-pink) 50%, var(--neon-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-text-red {
+      background: linear-gradient(135deg, #ffffff 0%, var(--neon-red) 55%, #880011 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @keyframes cyberHue {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(40deg); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      transition: all var(--transition-smooth);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-cyber-primary {
+      position: relative;
+      background: linear-gradient(135deg, var(--neon-cyan) 0%, #0099ff 100%);
+      color: #040509;
+      font-size: 1rem;
+      padding: 13px 28px;
+      box-shadow: 0 4px 22px rgba(0, 240, 255, 0.4);
+      overflow: hidden;
+    }
+
+    .btn-cyber-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.55s ease;
+    }
+
+    .btn-cyber-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-cyber-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 240, 255, 0.65);
+    }
+
+    .btn-cyber-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      padding: 13px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .btn-cyber-secondary:hover {
+      background: rgba(0, 240, 255, 0.1);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    .btn-neon-pink {
+      background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+      color: #fff;
+      font-size: 0.95rem;
+      padding: 13px 26px;
+      box-shadow: 0 4px 22px rgba(255, 0, 122, 0.4);
+    }
+
+    .btn-neon-pink:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(255, 0, 122, 0.7);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge-cyan { background: rgba(0, 240, 255, 0.12); color: var(--neon-cyan); border: 1px solid rgba(0, 240, 255, 0.3); }
+    .badge-gold { background: rgba(255, 215, 0, 0.12); color: var(--neon-gold); border: 1px solid rgba(255, 215, 0, 0.3); }
+    .badge-pink { background: rgba(255, 0, 122, 0.12); color: var(--neon-pink); border: 1px solid rgba(255, 0, 122, 0.3); }
+    .badge-red  { background: rgba(255, 26, 53, 0.15); color: var(--neon-red); border: 1px solid rgba(255, 26, 53, 0.4); }
+
+    .glass-panel {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+    }
+
+    .glass-card-3d {
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      transition: transform 0.15s ease-out, border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .glass-card-3d:hover {
+      border-color: rgba(0, 240, 255, 0.35);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.75), 0 0 24px rgba(0, 240, 255, 0.18);
+    }
+
+    @keyframes float3D {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+
+    .animate-float-3d {
+      animation: float3D 6s ease-in-out infinite;
+    }
+
+    @keyframes skeletonShimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .img-loading-shimmer {
+      background: linear-gradient(90deg, #0e111b 25%, #1c2236 50%, #0e111b 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.5s infinite;
+    }
+
+    .smooth-img {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .smooth-img.loaded {
+      opacity: 1;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 14px 20px;
+      background: rgba(5, 6, 10, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dim);
+      transition: padding 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 10px 20px;
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .brand-logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #040509;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .brand-logo:hover .brand-logo-icon {
+      transform: scale(1.08) rotate(3deg);
+      box-shadow: 0 0 28px rgba(0, 240, 255, 0.7);
+    }
+
+    .brand-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 10px;
+    }
+
+    .brand-logo-name {
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .brand-logo-sub {
+      font-size: 0.65rem;
+      color: var(--neon-cyan);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .desktop-nav {
+      display: none;
+      gap: 4px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+    }
+
+    @media (min-width: 960px) {
+      .desktop-nav {
+        display: flex;
+      }
+    }
+
+    .nav-link-btn {
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+
+    .nav-link-btn:hover, .nav-link-btn.active {
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.12);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .hamburger-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger-btn.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    @media (min-width: 960px) {
+      .hamburger-btn {
+        display: none;
+      }
+    }
+
+    
+    /* ==================== MODERN MOBILE SIDEBAR DRAWER (SLIDE FROM RIGHT) ==================== */
+    .mobile-menu-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 9980;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .mobile-menu-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 82%;
+      max-width: 320px;
+      z-index: 9990;
+      background: #060810;
+      border-left: 1px solid rgba(0, 240, 255, 0.25);
+      box-shadow: -15px 0 45px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding: 24px 20px;
+      gap: 12px;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .mobile-menu-drawer.open {
+      transform: translateX(0);
+    }
+
+    .mobile-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 16px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mobile-sidebar-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-menu-drawer a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .mobile-menu-drawer a:hover,
+    .mobile-menu-drawer a.active {
+      color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      border-color: rgba(0, 240, 255, 0.3);
+      transform: translateX(-4px);
+    }
+
+    .mobile-sidebar-cta {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+
+    main {
+      position: relative;
+      z-index: 2;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 32px;
+      }
+    }
+
+    section {
+      padding: 90px 0;
+      scroll-margin-top: 80px;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      section {
+        padding: 110px 0;
+        scroll-margin-top: 85px;
+      }
+    }
+
+    section + section {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4.2vw, 3.2rem);
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    /* Hero */
+    #hero {
+      padding-top: 130px;
+      min-height: 94vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-layout {
+      display: grid;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 960px) {
+      .hero-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+      }
+    }
+
+    .hero-headline {
+      font-size: clamp(2.3rem, 5.5vw, 4.2rem);
+      line-height: 1.1;
+      margin-bottom: 22px;
+    }
+
+    .hero-subtext {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 34px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-trust-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-dim);
+    }
+
+    .trust-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .hero-frame-card {
+      width: 100%;
+      max-width: 370px;
+      aspect-ratio: 3/4;
+      border-radius: 18px;
+      background: #080b14;
+      border: solid 12px #181820;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      padding: 10px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: all 0.35s ease;
+    }
+
+    .hero-frame-card-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      background: #080b14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-frame-card-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #080b14;
+    }
+
+    .hero-frame-meta-strip {
+      width: 100%;
+      max-width: 370px;
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(5, 6, 10, 0.92);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 3D Showcase Section */
+    #craftsmanship {
+      background: #060810;
+    }
+
+    .craft-grid {
+      display: grid;
+      gap: 36px;
+      align-items: center;
+    }
+
+    @media (min-width: 960px) {
+      .craft-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .craft-views-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .craft-views-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .craft-thumb-btn {
+      aspect-ratio: 3/4;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      background: #0d101a;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .craft-thumb-btn.active, .craft-thumb-btn:hover {
+      border-color: var(--neon-cyan);
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(0, 240, 255, 0.4);
+    }
+
+    .craft-cat-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .craft-pill {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .craft-pill.active, .craft-pill:hover {
+      background: linear-gradient(135deg, var(--neon-cyan) 0%, #0099ff 100%);
+      color: #040509;
+      border-color: transparent;
+    }
+
+    /* Customizer Studio & Multi-Angle Sub-Viewer */
+    #customizer {
+      background: radial-gradient(ellipse at center, rgba(14, 18, 30, 0.85) 0%, var(--bg-dark) 100%);
+    }
+
+    .customizer-grid {
+      display: grid;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (min-width: 960px) {
+      .customizer-grid {
+        grid-template-columns: 1fr 1.1fr;
+      }
+    }
+
+    .studio-preview-sticky {
+      position: static;
+    }
+
+    @media (min-width: 960px) {
+      .studio-preview-sticky {
+        position: sticky;
+        top: 100px;
+      }
+    }
+
+    .studio-canvas-panel {
+      padding: 30px 20px 20px;
+      border-radius: 26px;
+      background: rgba(8, 10, 18, 0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .studio-frame-render {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 3/4;
+      border-radius: 14px;
+      border: solid 14px #181820;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+      padding: 12px;
+      transition: all 0.35s ease;
+      transform-style: preserve-3d;
+    }
+
+    .studio-matting-layer {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .studio-art-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+      background: #080b14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .studio-art-wrapper img, #studio-art-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #080b14;
+    }
+
+    /* Dynamic Angles Row in Studio */
+    .studio-angles-strip {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-dim);
+    }
+
+    .studio-angles-title {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .studio-angles-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .angle-btn-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-dim);
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .angle-btn-pill.active, .angle-btn-pill:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--neon-cyan);
+    }
+
+    .angle-btn-pill img {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    .studio-price-strip {
+      margin-top: 18px;
+      padding: 20px 24px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .studio-price-val {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--neon-lime);
+    }
+
+    .artwork-thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .artwork-thumb-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .art-thumb-btn {
+      aspect-ratio: 3/4;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.2s;
+      background: #0d101a;
+      position: relative;
+    }
+
+    .art-thumb-btn.active, .art-thumb-btn:hover {
+      border-color: var(--neon-cyan);
+      transform: scale(1.03);
+    }
+
+    .art-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .art-angles-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--neon-cyan);
+      border-radius: 4px;
+      font-size: 0.6rem;
+      font-weight: 800;
+      padding: 1px 4px;
+    }
+
+    .upload-dropzone {
+      border: 2px dashed rgba(0, 240, 255, 0.35);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0, 240, 255, 0.03);
+      color: var(--neon-cyan);
+      font-weight: 700;
+      font-size: 0.88rem;
+      transition: background 0.2s;
+    }
+
+    .material-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .material-opt-btn {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-dim);
+      color: #fff;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .material-opt-btn.active, .material-opt-btn:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.1);
+    }
+
+    .size-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 440px) {
+      .size-options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .size-opt-btn {
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-dim);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .size-opt-btn.active, .size-opt-btn:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(0, 240, 255, 0.12);
+      color: var(--neon-cyan);
+    }
+
+    .matting-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .matting-pill-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .matting-pill-btn.active, .matting-pill-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    /* Room visualizer */
+    .room-stage-viewport {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+    }
+
+    @media (min-width: 600px) {
+      .room-stage-viewport {
+        height: 460px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .room-stage-viewport {
+        height: 520px;
+      }
+    }
+
+    .room-backdrop-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.4s ease;
+    }
+
+    .room-frame-projection {
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 190px;
+      aspect-ratio: 3/4;
+      border-radius: 8px;
+      border: solid 9px #181820;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      padding: 6px;
+      transition: all 0.35s ease;
+      z-index: 10;
+    }
+
+    @media (min-width: 600px) {
+      .room-frame-projection {
+        width: 230px;
+      }
+    }
+
+    .room-frame-projection-inner {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      padding: 4px;
+      border-radius: 2px;
+    }
+
+    .room-frame-projection-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .room-controls-bar {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      padding: 12px 18px;
+      border-radius: 18px;
+      background: rgba(5, 6, 10, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    /* Catalog */
+    .catalog-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+
+    .catalog-pill-btn {
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      border: none;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
+    }
+
+    .catalog-pill-btn.active, .catalog-pill-btn:hover {
+      background: linear-gradient(135deg, var(--neon-cyan) 0%, #0099ff 100%);
+      color: #040509;
+    }
+
+    .catalog-cards-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    @media (min-width: 480px) {
+      .catalog-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .catalog-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .catalog-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .product-art-card {
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-thumb-holder {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #080b14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .product-thumb-holder img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.4s ease;
+    }
+
+    .product-art-card:hover .product-thumb-holder img {
+      transform: scale(1.03);
+    }
+
+    .product-details-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    /* Full-Screen HD Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(3, 5, 10, 0.95);
+      backdrop-filter: blur(20px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-overlay.open {
+      display: flex;
+      animation: fadeInFast 0.25s ease forwards;
+    }
+
+    @keyframes fadeInFast {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .lightbox-container {
+      position: relative;
+      max-width: 92vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(10, 14, 24, 0.95);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 0 60px rgba(0, 240, 255, 0.25);
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font-size: 1.6rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 20;
+    }
+
+    .lightbox-close-btn:hover {
+      background: var(--neon-pink);
+      border-color: var(--neon-pink);
+      transform: scale(1.1);
+    }
+
+    .lightbox-img-holder {
+      max-width: 86vw;
+      max-height: 74vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #030408;
+    }
+
+    .lightbox-img-holder img {
+      max-width: 100%;
+      max-height: 74vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .lightbox-info-bar {
+      margin-top: 14px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 0 8px;
+    }
+
+    /* Cart drawer */
+    .cart-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(14px);
+      display: none;
+      justify-content: flex-end;
+    }
+
+    .cart-drawer-overlay.open {
+      display: flex;
+    }
+
+    .cart-drawer-panel {
+      width: 100%;
+      max-width: 500px;
+      height: 100%;
+      background: #080a12;
+      border-left: 1px solid rgba(0, 240, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -15px 0 50px rgba(0,0,0,0.9);
+    }
+
+    .cart-drawer-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-drawer-body {
+      padding: 20px 24px;
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cart-item-card {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-dim);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cart-item-thumb {
+      width: 60px;
+      height: 75px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .cart-form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #0d101e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .cart-drawer-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-dim);
+      background: #05060a;
+    }
+
+    footer {
+      background: #030407;
+      border-top: 1px solid var(--border-dim);
+      padding: 50px 0 24px;
+      color: var(--text-muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    @media (min-width: 640px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    .footer-bottom-bar {
+      border-top: 1px solid var(--border-dim);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.82rem;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE REFINEMENTS & SAFE SCREEN ADAPTATIONS
+       ========================================================================== */
+    @media (max-width: 960px) {
+      .hero-layout {
+        text-align: center;
+      }
+
+      .hero-subtext {
+        margin: 0 auto 30px auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-trust-bar {
+        justify-content: center;
+      }
+
+      .hero-frame-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .hero-frame-card,
+      .hero-frame-meta-strip {
+        max-width: 320px;
+      }
+
+      .hero-style-dots-bar {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 15px;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      header {
+        padding: 10px 14px;
+      }
+
+      .brand-logo-name {
+        font-size: 1.05rem;
+      }
+
+      .brand-logo-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .hero-headline {
+        font-size: clamp(1.85rem, 8vw, 2.6rem);
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .craft-views-row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .craft-pill {
+        padding: 5px 10px;
+        font-size: 0.72rem;
+      }
+
+      .studio-canvas-panel {
+        padding: 18px 12px;
+      }
+
+      .studio-frame-render {
+        max-width: 260px;
+        border-width: 10px;
+        padding: 8px;
+      }
+
+      .material-options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .size-options-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .catalog-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .cart-drawer-panel {
+        max-width: 100%;
+      }
+
+      .lightbox-container {
+        max-width: 96vw;
+        max-height: 94vh;
+        padding: 12px;
+      }
+
+      .lightbox-img-holder {
+        max-width: 92vw;
+        max-height: 65vh;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero-frame-card,
+      .hero-frame-meta-strip {
+        max-width: 270px;
+      }
+
+      .craft-views-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .artwork-thumb-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .studio-price-strip {
+        padding: 14px;
+      }
+
+      .studio-price-val {
+        font-size: 1.4rem;
+      }
+    }
+  
+    /* ==================== HIGH-SPEED PRELOADER ==================== */
+    #site-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #030408;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    #site-preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader-core {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .preloader-halo-spinner {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preloader-halo-spinner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: var(--neon-cyan);
+      border-right-color: var(--neon-cyan);
+      animation: spinClockwise 0.9s linear infinite;
+    }
+
+    @keyframes spinClockwise {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .preloader-logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #05060a;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .preloader-logo-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .preloader-brand-title {
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      text-align: center;
+      color: #fff;
+    }
+
+    .preloader-brand-slogan {
+      font-size: 0.7rem;
+      color: var(--neon-cyan);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .preloader-bar-track {
+      width: 160px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .preloader-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-pink) 100%);
+      transition: width 0.2s ease;
+    }
+
+    /* ==================== CLEAN MOBILE APP INTERFACE (< 768px) ==================== */
+    @media (max-width: 768px) {
+      /* Mobile App Bottom Dock */
+      .mobile-bottom-dock {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: rgba(5, 7, 14, 0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0, 240, 255, 0.2);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+        padding-bottom: env(safe-area-inset-bottom);
+        box-shadow: 0 -8px 25px rgba(0,0,0,0.8);
+      }
+
+      .dock-item-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 0.65rem;
+        font-weight: 700;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .dock-item-btn.active, .dock-item-btn:hover {
+        color: var(--neon-cyan);
+        background: rgba(0, 240, 255, 0.1);
+      }
+
+      .dock-item-btn span.dock-icon {
+        font-size: 1.15rem;
+      }
+
+      /* Compact sections for fast loading */
+      section {
+        padding: 45px 0 !important;
+        scroll-margin-top: 60px !important;
+      }
+
+      .hero-layout {
+        gap: 20px;
+        text-align: center;
+      }
+
+      .hero-headline {
+        font-size: 1.7rem !important;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+
+      .hero-subtext {
+        font-size: 0.86rem;
+        margin: 0 auto 16px auto;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .hero-actions .btn {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+      }
+
+      .hero-frame-card, .hero-frame-meta-strip {
+        max-width: 270px;
+      }
+
+      .craft-views-row {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+
+      .studio-frame-render {
+        max-width: 220px !important;
+        border-width: 8px !important;
+        padding: 6px !important;
+      }
+
+      .catalog-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+      }
+
+      body {
+        padding-bottom: 70px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-bottom-dock {
+        display: none !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ==================== FAST PRELOADER ==================== -->
+  <div id="site-preloader">
+    <div class="preloader-core">
+      <div class="preloader-halo-spinner">
+        <div class="preloader-logo-badge">
+          <img src="quadro-assets/quadro-logo.jpg" alt="Quadro Logo">
+        </div>
+      </div>
+      <div>
+        <div class="preloader-brand-title">QUADRO <span style="color: var(--neon-cyan);">BORDERS</span></div>
+        <div class="preloader-brand-slogan">Every Wall Starts With Quadro.</div>
+      </div>
+      <div class="preloader-bar-track">
+        <div class="preloader-bar-fill" id="preloader-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Particle canvas -->
+  <canvas id="bg-particles-canvas"></canvas>
+
+  <!-- Cursor glow -->
+  <div id="cursor-glow"></div>
+
+  <!-- Mobile Drawer -->
+  
+  <!-- ==================== MODERN SIDEBAR DRAWER & BACKDROP ==================== -->
+  <div class="mobile-menu-backdrop" id="mobile-drawer-backdrop" onclick="closeMobileMenu()"></div>
+  
+  <nav class="mobile-menu-drawer" id="mobile-drawer">
+    <div class="mobile-sidebar-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="brand-logo-icon" style="width: 32px; height: 32px;">
+          <img src="quadro-assets/quadro-logo.jpg" alt="Logo">
+        </div>
+        <div style="font-weight: 900; font-size: 0.95rem;">QUADRO <span style="color: var(--neon-cyan);">BORDERS</span></div>
+      </div>
+      <button class="mobile-sidebar-close" onclick="closeMobileMenu()">&times;</button>
+    </div>
+
+    <a href="#hero" onclick="playSynthSound(480); closeMobileMenu()">
+      <span>🏠</span> <span>Home</span>
+    </a>
+    <a href="#craftsmanship" onclick="playSynthSound(520); closeMobileMenu()">
+      <span>🪵</span> <span>3D Wood Relief</span>
+    </a>
+    <a href="#customizer" onclick="playSynthSound(560); closeMobileMenu()">
+      <span>🛠️</span> <span>3D Studio</span>
+    </a>
+    <a href="#visualizer" onclick="playSynthSound(600); closeMobileMenu()">
+      <span>🏠</span> <span>Room Visualizer</span>
+    </a>
+    <a href="#wallsets" onclick="playSynthSound(640); closeMobileMenu()">
+      <span>🖼️</span> <span>Gallery Wall Sets</span>
+    </a>
+    <a href="#catalog" onclick="playSynthSound(680); closeMobileMenu()">
+      <span>🔥</span> <span>All Collections</span>
+    </a>
+    <a href="https://www.instagram.com/quadro_borders?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" onclick="playSynthSound(720)">
+      <span>📸</span> <span>Instagram (@quadro_borders)</span>
+    </a>
+
+    <div class="mobile-sidebar-cta">
+      <button onclick="toggleCart(true); closeMobileMenu(); playSynthSound(750);" class="btn btn-cyber-primary" style="width: 100%; padding: 12px; font-size: 0.9rem;">
+        🛒 View Cart & Checkout
+      </button>
+      <a href="https://wa.me/201000000000?text=Hello%20Quadro%20Borders%20I%20have%20an%20inquiry" target="_blank" rel="noopener" class="btn btn-cyber-secondary" style="width: 100%; padding: 10px; font-size: 0.85rem; border-color: #25D366; color: #25D366;">
+        💬 WhatsApp Support
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- ==================== HEADER ==================== -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="brand-logo" onmouseenter="playSynthSound(440)">
+        <div class="brand-logo-icon">
+          <img src="quadro-assets/quadro-logo.jpg" alt="Quadro Borders Official Logo">
+        </div>
+        <div>
+          <div class="brand-logo-name">QUADRO <span style="color: var(--neon-cyan);">BORDERS</span></div>
+          <div class="brand-logo-sub">Every Wall Starts With Quadro.</div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav glass-panel">
+        <a href="#hero" class="nav-link-btn active" data-section="hero" onmouseenter="playSynthSound(480)" onclick="playSynthSound(580)">Home</a>
+        <a href="#craftsmanship" class="nav-link-btn" data-section="craftsmanship" onmouseenter="playSynthSound(520)" onclick="playSynthSound(620)">3D Relief</a>
+        <a href="#customizer" class="nav-link-btn" data-section="customizer" onmouseenter="playSynthSound(560)" onclick="playSynthSound(660)">3D Studio</a>
+        <a href="#visualizer" class="nav-link-btn" data-section="visualizer" onmouseenter="playSynthSound(600)" onclick="playSynthSound(700)">Room View</a>
+        <a href="#wallsets" class="nav-link-btn" data-section="wallsets" onmouseenter="playSynthSound(640)" onclick="playSynthSound(740)">Wall Sets</a>
+        <a href="#catalog" class="nav-link-btn" data-section="catalog" onmouseenter="playSynthSound(680)" onclick="playSynthSound(780)">Collections</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button id="audio-toggle-btn" onclick="toggleAudioFx()" class="btn btn-cyber-secondary" style="padding: 7px 12px; font-size: 0.8rem;" title="Sound Effects">
+          🔊 Sound FX
+        </button>
+
+        <button onclick="toggleCart(true); playSynthSound(750);" class="btn btn-cyber-primary" style="padding: 8px 18px; font-size: 0.88rem;">
+          🛒 <span>Cart</span>
+          <span id="cart-badge-count" style="background: var(--neon-pink); color: #fff; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 900;">1</span>
+        </button>
+
+        <button class="hamburger-btn" id="hamburger-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-layout">
+          
+          <!-- Left Column -->
+          <div>
+            <div class="badge badge-cyan" style="margin-bottom: 20px;">
+              ⚡ Every Wall Starts With Quadro.
+            </div>
+
+            <h1 class="hero-headline">
+              Elevate Your Space with <br>
+              <span class="gradient-text-cyber">Multi-Angle 3D Relief</span> <br>
+              & Cyber Neon Frames 🔥
+            </h1>
+
+            <p class="hero-subtext">
+              Handcrafted in Egypt. Multi-layered laser-cut wooden sculptures, raised typography masks, and multi-angle inspection so you can examine every angle before ordering.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#customizer" class="btn btn-cyber-primary" style="padding: 14px 32px; font-size: 1.05rem;" onclick="playSynthSound(800)">
+                ✨ Explore 3D Studio
+              </a>
+              <a href="#craftsmanship" class="btn btn-cyber-secondary" style="padding: 14px 28px; font-size: 1.05rem;" onclick="playSynthSound(600)">
+                Multi-Angle Gallery →
+              </a>
+            </div>
+
+            <div class="hero-trust-bar">
+              <div class="trust-pill">🪵 Multi-angle 3D relief inspection</div>
+              <div class="trust-pill">🕷️ Real laser corner sculptures</div>
+              <div class="trust-pill">🚚 24-48 hr Egypt express shipping</div>
+            </div>
+          </div>
+
+          <!-- Right Column: Real Hero Frame -->
+          <div class="hero-frame-container">
+            <div id="hero-3d-frame" class="hero-frame-card animate-float-3d" onmousemove="tiltCard(event, this)" onmouseleave="resetCardTilt(this)" onclick="openLightbox(document.getElementById('hero-frame-img').src, document.getElementById('hero-art-title-txt').textContent)" title="Click for 100% full uncropped inspection" style="position: relative;">
+              <div class="hero-frame-card-inner img-loading-shimmer">
+                <img id="hero-frame-img" class="smooth-img" src="quadro-assets/spiderman-3d-duo.jpg" onerror="this.onerror=null;this.src='quadro-assets/porsche-3d-full.jpg'" onload="this.classList.add('loaded')" alt="Quadro Borders Masterpiece">
+              </div>
+              <div style="position: absolute; top: 18px; right: 18px; z-index: 5; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 20px; font-size: 0.72rem; color: #fff; pointer-events: none;">
+                🔍 Zoom Full
+              </div>
+            </div>
+
+            <div class="hero-frame-meta-strip">
+              <div>
+                <div style="font-weight: 800; font-size: 0.92rem;" id="hero-art-title-txt">Spider-Man 3D Typographic Duo</div>
+                <div style="font-size: 0.74rem; color: var(--neon-red); font-weight: 700;" id="hero-art-style-txt">Raised Wood Mask + Corner Spider & Web</div>
+              </div>
+              <div id="hero-art-price-txt" style="font-weight: 900; color: var(--neon-lime); font-size: 1.1rem;">580 EGP</div>
+            </div>
+
+            <div class="hero-style-dots-bar glass-panel" style="margin-top: 18px; padding: 8px 18px; border-radius: var(--radius-full); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">Featured:</span>
+              <button class="btn btn-cyber-secondary active" style="padding: 4px 12px; font-size: 0.75rem;" onclick="switchHeroFlagship('quadro-assets/spiderman-3d-duo.jpg', 'Spider-Man 3D Typographic Duo', 'Raised Wood Mask + Corner Spider & Web', '580 EGP', this)">
+                🕷️ Spider-Man 3D
+              </button>
+              <button class="btn btn-cyber-secondary" style="padding: 4px 12px; font-size: 0.75rem;" onclick="switchHeroFlagship('quadro-assets/porsche-3d-full.jpg', 'Porsche GT3 RS 3D Relief', 'Laser-cut Raised Wood Lettering', '550 EGP', this)">
+                🏎️ Porsche 3D
+              </button>
+              <button class="btn btn-cyber-secondary" style="padding: 4px 12px; font-size: 0.75rem;" onclick="switchHeroFlagship('quadro-assets/salah-worldcup-frame.jpg', 'Salah · 2026 World Cup Win', 'Historic Egyptian Sports Moment', '490 EGP', this)">
+                👑 Salah Egypt
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SIGNATURE 3D RELIEF & REAL CRAFTSMANSHIP SHOWCASE ==================== -->
+    <section id="craftsmanship">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-gold" style="margin-bottom: 12px;">✨ Authentic Egyptian Craftsmanship</div>
+          <h2>Feel the Relief: <span class="gradient-text-gold">Physical 3D Raised Wood & Master Finishes</span></h2>
+          <p>Every piece is precision laser-cut, hand-layered, and inspected from multiple angles. Explore the complete collection mix below — inspect the 3D wooden lettering depth, corner-climbing sculptures, gold finishes, and commemorative pieces.</p>
+        </div>
+
+        <!-- Collection Switcher Pills for Feel the Relief -->
+        <div class="craft-cat-pills" style="justify-content: center; margin-bottom: 24px;">
+          <button class="craft-pill active" onclick="filterCraftMix('all', this)">All Real Photos (Mix)</button>
+          <button class="craft-pill" onclick="filterCraftMix('spiderman', this)">🕷️ Spider-Man 3D Relief</button>
+          <button class="craft-pill" onclick="filterCraftMix('porsche', this)">🏎️ Porsche 3D Raised Wood</button>
+          <button class="craft-pill" onclick="filterCraftMix('heritage', this)">👑 Salah & Gold Frames</button>
+        </div>
+
+        <div class="craft-grid">
+          
+          <!-- Large Angle Display -->
+          <div class="glass-card-3d" style="padding: 16px; border-radius: 24px; cursor: pointer;" onmousemove="tiltCard(event, this)" onmouseleave="resetCardTilt(this)" onclick="openLightbox(document.getElementById('craft-main-display-img').src, document.getElementById('craft-detail-title').textContent)" title="Click for 100% full uncropped inspection">
+            <div style="width: 100%; aspect-ratio: 3/4; border-radius: 14px; overflow: hidden; position: relative; background: #080b14; display: flex; align-items: center; justify-content: center;" class="img-loading-shimmer">
+              <img id="craft-main-display-img" class="smooth-img" src="quadro-assets/spiderman-3d-duo.jpg" onload="this.classList.add('loaded')" alt="Quadro 3D Wood Depth Close-Up" style="width: 100%; height: 100%; object-fit: contain;">
+              
+              <div style="position: absolute; top: 14px; left: 14px;">
+                <span class="badge badge-red" id="craft-badge-txt">Spider-Man 3D Inverted Duo Set</span>
+              </div>
+              <div style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 20px; font-size: 0.72rem; color: #fff;">
+                🔍 Zoom Full
+              </div>
+            </div>
+
+            <!-- Full Mix Thumbnail Gallery -->
+            <div class="craft-views-row" id="craft-thumbnails-grid">
+              <!-- Rendered dynamically by JS with all photos -->
+            </div>
+          </div>
+
+          <!-- Feature Breakdown (Dynamic Details) -->
+          <div>
+            <div class="badge badge-red" id="craft-detail-tag" style="margin-bottom: 16px;">Multi-Layered Art</div>
+            <h3 id="craft-detail-title" style="font-size: 2rem; margin-bottom: 18px; line-height: 1.2;">
+              Hand-Layered 3D Sculptures Over Official Quadro Borders.
+            </h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 26px;">
+              <div style="padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim);">
+                <div id="craft-feat1-title" style="font-weight: 800; font-size: 1rem; color: var(--neon-red); margin-bottom: 4px;">
+                  1. Spider-Man Typographic 3D Face Mask
+                </div>
+                <div id="craft-feat1-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                  The iconic eyes and mask contour are shaped entirely from interlocking laser-cut wooden letters that spell "SPIDER-MAN".
+                </div>
+              </div>
+
+              <div style="padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim);">
+                <div id="craft-feat2-title" style="font-weight: 800; font-size: 1rem; color: var(--neon-gold); margin-bottom: 4px;">
+                  2. Corner-Climbing 3D Wooden Accents
+                </div>
+                <div id="craft-feat2-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                  A multi-legged black spider rests on the top corner, while a laser-cut 3D web spans the bottom corner with embossed "Quadro borders" branding.
+                </div>
+              </div>
+
+              <div style="padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-dim);">
+                <div id="craft-feat3-title" style="font-weight: 800; font-size: 1rem; color: var(--neon-cyan); margin-bottom: 4px;">
+                  3. Inverted Color Companion Frame
+                </div>
+                <div id="craft-feat3-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                  Available as a single piece or as an inverted pair (Bold Black Background & Crimson Red Background) for a matching gallery wall.
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button id="craft-order-primary-btn" onclick="addCurrentCraftToCart()" class="btn btn-cyber-primary" style="padding: 14px 28px; font-size: 0.95rem;">
+                🛒 Add This Piece to Cart (580 EGP)
+              </button>
+              <a href="#customizer" class="btn btn-cyber-secondary" style="padding: 14px 24px; font-size: 0.95rem;" onclick="openCurrentCraftInStudio()">
+                ✏️ Customize in 3D Studio
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3D STUDIO CUSTOMIZER ==================== -->
+    <section id="customizer">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-cyan" style="margin-bottom: 12px;">🛠️ Interactive 3D Studio & Multi-Angle Inspector</div>
+          <h2>Mix All Artworks & <span class="gradient-text-cyber">Inspect Every Angle</span></h2>
+          <p>Pick any artwork from the collection below. For each piece, explore its complete photography angles, corner macros, and depth perspectives in real time.</p>
+        </div>
+
+        <div class="customizer-grid">
+          
+          <!-- Sticky Live Canvas View with Dynamic Multi-Angle Bar -->
+          <div class="studio-preview-sticky">
+            <div class="studio-canvas-panel glass-panel">
+              <div id="studio-rendered-frame" class="studio-frame-render" onmousemove="tiltCard(event, this)" onmouseleave="resetCardTilt(this)" onclick="openLightbox(document.getElementById('studio-art-preview-img').src, state.studioTitle)" title="Click to view 100% full uncropped image" style="cursor: pointer; position: relative;">
+                <div id="studio-matting-box" class="studio-matting-layer">
+                  <div class="studio-art-wrapper img-loading-shimmer">
+                    <img id="studio-art-preview-img" class="smooth-img" src="quadro-assets/spiderman-3d-duo.jpg" onerror="this.onerror=null;this.src='quadro-assets/porsche-3d-full.jpg'" onload="this.classList.add('loaded')" alt="Quadro Customizer Art Preview">
+                  </div>
+                </div>
+                <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; color: #fff; pointer-events: none;">
+                  🔍 Zoom
+                </div>
+              </div>
+
+              <!-- DYNAMIC MULTI-ANGLE STRIP -->
+              <div class="studio-angles-strip">
+                <div class="studio-angles-title">
+                  <span id="studio-angle-label-txt">📸 Available Angles for Selected Art:</span>
+                  <span id="studio-angle-count-badge" class="badge badge-cyan" style="padding: 2px 8px; font-size: 0.65rem;">4 Angles</span>
+                </div>
+                <div class="studio-angles-list" id="studio-dynamic-angles-container">
+                  <!-- Injected dynamically based on selected artwork -->
+                </div>
+              </div>
+            </div>
+
+            <div class="studio-price-strip glass-panel">
+              <div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Total Configured Price:</div>
+                <div id="studio-calculated-price-txt" class="studio-price-val">580 EGP</div>
+              </div>
+
+              <div style="display: flex; gap: 10px;">
+                <a href="#visualizer" class="btn btn-cyber-secondary" style="padding: 10px 18px; font-size: 0.88rem;" onclick="syncStudioToVisualizer(); playSynthSound(550);">
+                  👁️ Room View
+                </a>
+                <button onclick="addCustomFrameToCart()" class="btn btn-cyber-primary" style="padding: 10px 22px; font-size: 0.88rem;">
+                  🛒 Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls Stack -->
+          <div class="controls-stack">
+            
+            <!-- Step 1: Artwork Source (Full Mix of all uploaded + brand photos) -->
+            <div class="ctrl-box glass-panel">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div class="ctrl-box-title" style="margin-bottom: 0;">1 · Select Artwork (Click to inspect all angles)</div>
+                <span class="badge badge-gold" style="font-size: 0.68rem;">Mix All Pieces</span>
+              </div>
+              
+              <div class="artwork-thumb-grid" id="studio-art-mix-grid">
+                <!-- Injected by JS with angle indicators -->
+              </div>
+
+              <label class="upload-dropzone">
+                📁 Click here to upload your custom photo (JPG / PNG)
+                <input type="file" accept="image/*" style="display: none;" onchange="handleCustomPhotoUpload(event)">
+              </label>
+            </div>
+
+            <!-- Step 2: Frame Material -->
+            <div class="ctrl-box glass-panel">
+              <div class="ctrl-box-title">2 · Frame Border Material</div>
+              
+              <div class="material-options-grid">
+                <button class="material-opt-btn active" onclick="setStudioFrameMaterial('obsidian', '#121216', 'solid 14px #181820', '0 10px 30px rgba(0,0,0,0.9)', 1.0, 'Matte Obsidian Black', this)">
+                  <div class="mat-opt-name">🖤 Matte Obsidian</div>
+                  <div class="mat-opt-sub">Smooth velvet finish</div>
+                </button>
+
+                <button class="material-opt-btn" onclick="setStudioFrameMaterial('crimson', '#b3001e', 'solid 14px #880011', '0 10px 30px rgba(255,26,53,0.4)', 1.1, 'Quadro Crimson Red', this)">
+                  <div class="mat-opt-name" style="color: var(--neon-red);">🕷️ Crimson Red</div>
+                  <div class="mat-opt-sub">Spider-Man Edition</div>
+                </button>
+
+                <button class="material-opt-btn" onclick="setStudioFrameMaterial('cyber-neon', 'var(--neon-cyan)', 'solid 12px #0a0e1a', 'var(--glow-cyan)', 1.25, 'Cyber RGB Neon', this)">
+                  <div class="mat-opt-name" style="color: var(--neon-cyan);">⚡ Cyber RGB Neon</div>
+                  <div class="mat-opt-sub">Dual-layer acrylic</div>
+                </button>
+
+                <button class="material-opt-btn" onclick="setStudioFrameMaterial('gold', '#d4af37', 'solid 14px #b8860b', '0 10px 30px rgba(212,175,55,0.4)', 1.2, 'Luxury Brushed Gold', this)">
+                  <div class="mat-opt-name" style="color: var(--neon-gold);">✨ Luxury Gold</div>
+                  <div class="mat-opt-sub">Anodized aluminum</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Size & Matting -->
+            <div class="ctrl-box glass-panel">
+              <div class="ctrl-box-title">3 · Dimensions & Inner Matting</div>
+              
+              <div class="size-options-grid">
+                <button class="size-opt-btn" onclick="setStudioSizeOption(380, 'A4 (21x30 cm)', this)">
+                  A4
+                  <span class="size-opt-dims">21 × 30 cm</span>
+                </button>
+                <button class="size-opt-btn active" onclick="setStudioSizeOption(580, 'A3 (30x42 cm)', this)">
+                  A3 (Signature Size)
+                  <span class="size-opt-dims">30 × 42 cm</span>
+                </button>
+                <button class="size-opt-btn" onclick="setStudioSizeOption(890, 'A2 (42x60 cm)', this)">
+                  A2 Large
+                  <span class="size-opt-dims">42 × 60 cm</span>
+                </button>
+                <button class="size-opt-btn" onclick="setStudioSizeOption(1290, 'XL (50x70 cm)', this)">
+                  XL Gallery
+                  <span class="size-opt-dims">50 × 70 cm</span>
+                </button>
+                <button class="size-opt-btn" onclick="setStudioSizeOption(1350, 'Triptych (3x A3)', this)">
+                  Triptych Trio
+                  <span class="size-opt-dims">3 × A3 Set</span>
+                </button>
+              </div>
+
+              <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">Passepartout / Inner Matting:</div>
+              <div class="matting-pills-row">
+                <button class="matting-pill-btn active" onclick="setStudioMattingOption('#ffffff', 12, this)">Classic White (2cm)</button>
+                <button class="matting-pill-btn" onclick="setStudioMattingOption('#0a0a0c', 16, this)">Deep Black (2.5cm)</button>
+                <button class="matting-pill-btn" onclick="setStudioMattingOption('rgba(255, 26, 53, 0.25)', 10, this)">Crimson Web Glow</button>
+                <button class="matting-pill-btn" onclick="setStudioMattingOption('transparent', 0, this)">Full Bleed (No Matting)</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ROOM VISUALIZER ==================== -->
+    <section id="visualizer">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-pink" style="margin-bottom: 12px;">✨ Virtual Room Visualizer</div>
+          <h2>See Your Frame <span class="gradient-text-pink">In Your Room</span></h2>
+          <p>Preview proportions and ambient lighting against dark gaming setups, bedrooms, and lounges.</p>
+        </div>
+
+        <div class="room-stage-viewport">
+          <img id="room-backdrop-screen" class="room-backdrop-img smooth-img" src="quadro-assets/room-gaming.jpg" onload="this.classList.add('loaded')" alt="Quadro Room Setup">
+
+          <!-- Mounted Frame Projection -->
+          <div id="room-projected-frame" class="room-frame-projection">
+            <div id="room-projected-matting" class="room-frame-projection-inner">
+              <img id="room-projected-art-img" src="quadro-assets/spiderman-3d-duo.jpg" alt="Wall Mounted Artwork">
+            </div>
+          </div>
+
+          <!-- Room Controls -->
+          <div class="room-controls-bar">
+            <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-muted);">Environment:</div>
+            <div class="room-btns-group">
+              <button onclick="switchRoomBackdrop('quadro-assets/room-gaming.jpg', this)" class="btn btn-cyber-secondary active" style="padding: 7px 14px; font-size: 0.8rem;">
+                🎮 Gaming Setup
+              </button>
+              <button onclick="switchRoomBackdrop('quadro-assets/room-bedroom.jpg', this)" class="btn btn-cyber-secondary" style="padding: 7px 14px; font-size: 0.8rem;">
+                🛏️ Modern Bedroom
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== GALLERY WALL SETS ==================== -->
+    <section id="wallsets">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-gold" style="margin-bottom: 12px;">🖼️ Curated Gallery Sets</div>
+          <h2>Transform Your Feature Wall <span class="gradient-text-gold">With Cohesive Sets</span></h2>
+          <p>Coordinated sets engineered to hang together with unified frame borders and bundle discounts.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          
+          <div class="glass-card-3d" style="padding: 26px; border-radius: 22px;">
+            <span class="badge badge-red" style="margin-bottom: 12px;">Collector's Choice</span>
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Spider-Man 3D Inverted Duo Set</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; margin-bottom: 16px;">
+              Both black and red typographic mask frames side-by-side with corner crawling spiders and web sculptures.
+            </p>
+            <div style="font-size: 1.65rem; font-weight: 900; color: var(--neon-lime); margin-bottom: 16px;">990 EGP <span style="font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through;">1,260 EGP</span></div>
+            <button onclick="addBundleSetToCart('Spider-Man 3D Inverted Duo Set', 990)" class="btn btn-neon-pink" style="width: 100%;">
+              🛒 Add Duo Set to Cart
+            </button>
+          </div>
+
+          <div class="glass-card-3d" style="padding: 26px; border-radius: 22px;">
+            <span class="badge badge-gold" style="margin-bottom: 12px;">Save 25%</span>
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">The Speed & Heritage Duo</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; margin-bottom: 16px;">
+              Pair the Porsche 3D Wooden Relief frame with the historic Egypt World Cup Salah commemorative frame.
+            </p>
+            <div style="font-size: 1.65rem; font-weight: 900; color: var(--neon-lime); margin-bottom: 16px;">980 EGP <span style="font-size: 0.85rem; color: var(--text-muted); text-decoration: line-through;">1,200 EGP</span></div>
+            <button onclick="addBundleSetToCart('The Speed & Heritage Duo (Porsche 3D + Salah)', 980)" class="btn btn-neon-pink" style="width: 100%;">
+              🛒 Add Duo Set to Cart
+            </button>
+          </div>
+
+          <div class="glass-card-3d" style="padding: 26px; border-radius: 22px;">
+            <span class="badge badge-cyan" style="margin-bottom: 12px;">Popular</span>
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Cyber Battlestation Quad Grid</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; margin-bottom: 16px;">
+              Four matching A3 frames with Cyber RGB Neon glowing borders. Engineered for streamers and battlestations.
+            </p>
+            <div style="font-size: 1.65rem; font-weight: 900; color: var(--neon-lime); margin-bottom: 16px;">1,580 EGP</div>
+            <button onclick="addBundleSetToCart('Cyber Quad Grid Set (4x Frames)', 1580)" class="btn btn-neon-pink" style="width: 100%;">
+              🛒 Add Quad Set to Cart
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CATALOG SECTION ==================== -->
+    <section id="catalog">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-cyan" style="margin-bottom: 12px;">🔥 Authentic Collections</div>
+          <h2>Explore All <span class="gradient-text-cyber">Framed Artworks</span></h2>
+          <p>Click any piece to customize in 3D, inspect angles, or quick-add to your cart.</p>
+        </div>
+
+        <div class="catalog-filter-bar">
+          <button class="catalog-pill-btn active" onclick="filterCatalogCards('all', this)">All Pieces</button>
+          <button class="catalog-pill-btn" onclick="filterCatalogCards('relief', this)">3D Wood Relief</button>
+          <button class="catalog-pill-btn" onclick="filterCatalogCards('sports', this)">Sports & Icons</button>
+          <button class="catalog-pill-btn" onclick="filterCatalogCards('cyber', this)">Cyber & Neon</button>
+          <button class="catalog-pill-btn" onclick="filterCatalogCards('space', this)">Cosmos & Anime</button>
+        </div>
+
+        <div class="catalog-cards-grid" id="catalog-products-container">
+          <!-- Dynamically Injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== REVIEWS / SOCIAL WALL ==================== -->
+    <section style="background: #06080f; padding: 90px 0;">
+      <div class="container">
+        <div class="section-header">
+          <div class="badge badge-pink" style="margin-bottom: 12px;">❤️ Quadro Wall of Fame</div>
+          <h2>Every Wall <span class="gradient-text-pink">Starts With Quadro.</span></h2>
+          <p>Real customer photos from living rooms, bedrooms, and gaming setups across Egypt.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px;">
+          
+          <div class="glass-card-3d" style="padding: 20px; border-radius: 20px;">
+            <div style="border-radius: 14px; overflow: hidden; aspect-ratio: 3/4; margin-bottom: 16px; background: #080b14; display: flex; align-items: center; justify-content: center; padding: 6px;">
+              <img src="quadro-assets/spiderman-3d-corner-spider.jpg" alt="Spider-man corner sculpture detail" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 800; font-size: 0.95rem;">Karim N. · Sheikh Zayed</div>
+              <div style="color: var(--neon-gold); font-size: 0.85rem;">★★★★★</div>
+            </div>
+            <p style="font-size: 0.9rem; color: #cbd5e1; font-style: italic; line-height: 1.6;">
+              "The Spider-Man 3D frame is insane! The spider actually crawls on the corner of the wooden border. Insane attention to detail by Quadro."
+            </p>
+          </div>
+
+          <div class="glass-card-3d" style="padding: 20px; border-radius: 20px;">
+            <div style="border-radius: 14px; overflow: hidden; aspect-ratio: 3/4; margin-bottom: 16px; background: #080b14; display: flex; align-items: center; justify-content: center; padding: 6px;">
+              <img src="quadro-assets/salah-worldcup-frame.jpg" alt="Salah frame photo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 800; font-size: 0.95rem;">Tamer H. · Heliopolis</div>
+              <div style="color: var(--neon-gold); font-size: 0.85rem;">★★★★★</div>
+            </div>
+            <p style="font-size: 0.9rem; color: #cbd5e1; font-style: italic; line-height: 1.6;">
+              "The print quality of Salah's World Cup win frame is phenomenal. The commemorative 'Every Wall Starts With Quadro' card is such a premium touch!"
+            </p>
+          </div>
+
+          <div class="glass-card-3d" style="padding: 20px; border-radius: 20px;">
+            <div style="border-radius: 14px; overflow: hidden; aspect-ratio: 3/4; margin-bottom: 16px; background: #080b14; display: flex; align-items: center; justify-content: center; padding: 6px;">
+              <img src="quadro-assets/porsche-3d-angle.jpg" alt="Porsche frame real angle" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-weight: 800; font-size: 0.95rem;">Ahmed M. · New Cairo</div>
+              <div style="color: var(--neon-gold); font-size: 0.85rem;">★★★★★</div>
+            </div>
+            <p style="font-size: 0.9rem; color: #cbd5e1; font-style: italic; line-height: 1.6;">
+              "The 3D wooden letters on the Porsche frame are genuinely raised — you can feel the depth with your fingers. 10/10 craftsmanship."
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Instagram Callout -->
+        <div class="glass-panel" style="padding: 36px 32px; border-radius: 24px; background: linear-gradient(135deg, rgba(255,0,122,0.12) 0%, rgba(157,0,255,0.12) 100%); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <h3 style="font-size: 1.4rem; margin-bottom: 6px;">Follow @quadro_borders on Instagram</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">See daily customer unboxings, new drops, and custom order reviews.</p>
+          </div>
+          <a href="https://www.instagram.com/quadro_borders?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="btn btn-neon-pink">
+            📸 Visit Official Instagram
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FULL-SCREEN HD LIGHTBOX MODAL ==================== -->
+  <div id="image-lightbox-modal" class="lightbox-overlay" onclick="closeLightbox(event)">
+    <div class="lightbox-container" onclick="event.stopPropagation()">
+      <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+      <div class="lightbox-img-holder">
+        <img id="lightbox-full-img" src="" alt="Full Screen Inspection">
+      </div>
+      <div class="lightbox-info-bar">
+        <div>
+          <div id="lightbox-title-txt" style="font-weight: 800; font-size: 1.05rem; color: #fff;">Spider-Man 3D Relief</div>
+          <div style="font-size: 0.8rem; color: var(--neon-cyan);">🔍 100% Full Uncropped Original View</div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn btn-cyber-primary" style="padding: 8px 18px; font-size: 0.85rem;" onclick="addLightboxPieceToCart()">
+            🛒 Order This Piece
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CART DRAWER ==================== -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="handleCartOverlayClick(event)">
+    <div class="cart-drawer-panel">
+      
+      <div class="cart-drawer-header">
+        <h3 style="font-size: 1.25rem; font-weight: 800;">🛒 Your Cart</h3>
+        <button onclick="toggleCart(false)" style="background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="cart-drawer-body">
+        <div id="cart-items-rendered-list"></div>
+
+        <div style="padding: 16px; border-radius: 14px; background: rgba(0, 240, 255, 0.04); border: 1px solid rgba(0, 240, 255, 0.16);">
+          <label style="font-size: 0.85rem; color: var(--neon-cyan); font-weight: 800; display: block; margin-bottom: 8px;">
+            🚚 Delivery Governorate:
+          </label>
+          <select id="egypt-shipping-select" onchange="recalculateCartGrandTotal()" class="cart-form-control">
+            <option value="45">Cairo & Giza — 45 EGP (24–48 hrs express)</option>
+            <option value="60">Alexandria — 60 EGP (2–3 business days)</option>
+            <option value="70">Delta & Canal Cities — 70 EGP</option>
+            <option value="95">Upper Egypt & Red Sea — 95 EGP</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <input id="cust-full-name" type="text" placeholder="Full Name" class="cart-form-control">
+          <input id="cust-whatsapp-phone" type="tel" placeholder="WhatsApp Phone Number" class="cart-form-control">
+          <input id="cust-delivery-addr" type="text" placeholder="Delivery Address (Area, Street, Building)" class="cart-form-control">
+        </div>
+      </div>
+
+      <div class="cart-drawer-footer">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-muted);">
+          <span>Subtotal:</span>
+          <span id="cart-subtotal-txt">580 EGP</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; color: var(--text-muted);">
+          <span>Shipping:</span>
+          <span id="cart-shipping-txt">45 EGP</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 1.25rem; font-weight: 900;">
+          <span>Grand Total:</span>
+          <span id="cart-grandtotal-txt" style="color: var(--neon-lime);">625 EGP</span>
+        </div>
+
+        <button onclick="dispatchWhatsAppOrder()" class="btn btn-cyber-primary" style="width: 100%; padding: 15px; font-size: 1rem; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff;">
+          📲 Send Order to WhatsApp
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div class="brand-logo-icon" style="width: 38px; height: 38px;">
+              <img src="quadro-assets/quadro-logo.jpg" alt="Quadro Logo">
+            </div>
+            <div style="font-weight: 900; font-size: 1.2rem; color: #fff;">
+              QUADRO <span style="color: var(--neon-cyan);">BORDERS</span>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.6; margin-bottom: 16px;">
+            "Every Wall Starts With Quadro." Egypt's benchmark brand for 3D wooden relief frames, laser corner sculptures, and modern wall decor.
+          </p>
+          <a href="https://www.instagram.com/quadro_borders?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" style="color: var(--neon-pink); font-weight: 700; text-decoration: none; font-size: 0.88rem;">
+            📸 @quadro_borders on Instagram
+          </a>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 14px;">Navigation</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+            <li><a href="#customizer" style="color: inherit; text-decoration: none;">3D Studio Customizer</a></li>
+            <li><a href="#craftsmanship" style="color: inherit; text-decoration: none;">3D Wood Relief</a></li>
+            <li><a href="#visualizer" style="color: inherit; text-decoration: none;">Room Visualizer</a></li>
+            <li><a href="#catalog" style="color: inherit; text-decoration: none;">Art Collections</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 14px;">Made in Egypt</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+            <span>📍 Cairo, Egypt</span>
+            <span>🇪🇬 Nationwide delivery</span>
+            <span>💬 Instant WhatsApp checkout</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 14px;">Payment Methods</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            <span class="badge badge-cyan">Vodafone Cash</span>
+            <span class="badge badge-gold">InstaPay</span>
+            <span class="badge badge-pink">Cash on Delivery</span>
+            <span class="badge badge-cyan">Visa / MC</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>© 2026 Quadro Borders Egypt. All Rights Reserved.</div>
+        <div>Every Wall Starts With Quadro.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Web Audio Synthesizer
+    let soundFxActive = true;
+    let synthAudioCtx = null;
+
+    function getAudioContext() {
+      if (!synthAudioCtx) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) synthAudioCtx = new AudioCtx();
+      }
+      if (synthAudioCtx && synthAudioCtx.state === 'suspended') {
+        synthAudioCtx.resume();
+      }
+      return synthAudioCtx;
+    }
+
+    // Auto unlock audio context on first user interaction
+    ['click', 'touchstart', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, () => {
+        getAudioContext();
+      }, { once: true });
+    });
+
+    function playSynthSound(freq = 440, type = 'sine', duration = 0.12) {
+      if (!soundFxActive) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function toggleAudioFx() {
+      soundFxActive = !soundFxActive;
+      document.getElementById('audio-toggle-btn').innerText = soundFxActive ? '🔊 Sound FX' : '🔇 Muted';
+      if (soundFxActive) playSynthSound(600);
+    }
+
+    // Interactive Particle Canvas
+    (function initParticles() {
+      const pCanvas = document.getElementById('bg-particles-canvas');
+      const pCtx = pCanvas.getContext('2d');
+      let pWidth, pHeight;
+      let particleList = [];
+
+      function fitCanvas() {
+        pWidth = pCanvas.width = window.innerWidth;
+        pHeight = pCanvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', fitCanvas);
+      fitCanvas();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * pWidth;
+          this.y = Math.random() * pHeight;
+          this.vx = (Math.random() - 0.5) * 0.6;
+          this.vy = (Math.random() - 0.5) * 0.6;
+          this.radius = Math.random() * 1.6 + 0.8;
+          this.color = Math.random() > 0.4 ? '#00f0ff' : '#9d00ff';
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > pWidth) this.vx *= -1;
+          if (this.y < 0 || this.y > pHeight) this.vy *= -1;
+        }
+        draw() {
+          pCtx.beginPath();
+          pCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          pCtx.fillStyle = this.color;
+          pCtx.globalAlpha = 0.45;
+          pCtx.fill();
+        }
+      }
+
+      for (let i = 0; i < 45; i++) particleList.push(new Particle());
+
+      function loop() {
+        pCtx.clearRect(0, 0, pWidth, pHeight);
+        particleList.forEach(pt => { pt.update(); pt.draw(); });
+        for (let i = 0; i < particleList.length; i++) {
+          for (let j = i + 1; j < particleList.length; j++) {
+            const dx = particleList[i].x - particleList[j].x;
+            const dy = particleList[i].y - particleList[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 125) {
+              pCtx.beginPath();
+              pCtx.moveTo(particleList[i].x, particleList[i].y);
+              pCtx.lineTo(particleList[j].x, particleList[j].y);
+              pCtx.strokeStyle = '#00f0ff';
+              pCtx.globalAlpha = (1 - dist / 125) * 0.12;
+              pCtx.lineWidth = 0.8;
+              pCtx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    // Cursor Follower
+    const cursorGlow = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', e => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // 3D Card Tilt
+    function tiltCard(e, element) {
+      if (window.matchMedia('(pointer: coarse)').matches) return;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const tiltX = (y / rect.height) * -16;
+      const tiltY = (x / rect.width) * 16;
+      element.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+    }
+
+    function resetCardTilt(element) {
+      element.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    }
+
+    // =========================================================================
+    // COMPLETE ARTWORKS & MULTI-ANGLE DATA STRUCTURE
+    // =========================================================================
+    const ARTWORK_LIBRARY = [
+      {
+        id: 'spiderman-3d',
+        title: 'Spider-Man 3D Typographic Duo',
+        artist: 'Quadro Pop Sculptures',
+        cat: 'relief',
+        price: 580,
+        mainImg: 'quadro-assets/spiderman-3d-duo.jpg',
+        badge: '3D Laser Sculptures',
+        angles: [
+          { name: 'Full Duo Pair', img: 'quadro-assets/spiderman-3d-duo.jpg', desc: 'Complete black & red framed companion pair' },
+          { name: 'Corner Spider Detail', img: 'quadro-assets/spiderman-3d-corner-spider.jpg', desc: 'Tactile black spider crawling on red frame corner' },
+          { name: 'Corner 3D Web', img: 'quadro-assets/spiderman-3d-corner-web.jpg', desc: 'Laser-cut 3D spider web on lower corner with Quadro branding' },
+          { name: 'Hanging Spider', img: 'quadro-assets/spiderman-3d-hanging-spider.jpg', desc: 'Laser-cut web string and hanging spider detail' }
+        ]
+      },
+      {
+        id: 'porsche-gt3-3d',
+        title: 'Porsche GT3 RS 3D Wood Relief',
+        artist: 'Quadro Automotive Lab',
+        cat: 'relief',
+        price: 550,
+        mainImg: 'quadro-assets/porsche-3d-full.jpg',
+        badge: '3D Raised Wood',
+        angles: [
+          { name: 'Front Full View', img: 'quadro-assets/porsche-3d-full.jpg', desc: 'Direct face view showing specs sheet and typography' },
+          { name: '3D Elevation Depth', img: 'quadro-assets/porsche-3d-depth.jpg', desc: 'Macro angle showing 4mm raised wooden letters' },
+          { name: 'Perspective Side Angle', img: 'quadro-assets/porsche-3d-angle.jpg', desc: 'Side view catching ambient light on wooden relief' },
+          { name: 'High-Res Spec Sheet', img: 'quadro-assets/porsche-3d-front.jpg', desc: '525 PS, 296 km/h technical stats' }
+        ]
+      },
+      {
+        id: 'salah-worldcup',
+        title: 'Salah · Historic World Cup Knockout Win',
+        artist: 'Quadro Sports Heritage',
+        cat: 'sports',
+        price: 490,
+        mainImg: 'quadro-assets/salah-worldcup-frame.jpg',
+        badge: 'Historic Moment',
+        angles: [
+          { name: 'Framed Presentation', img: 'quadro-assets/salah-worldcup-frame.jpg', desc: 'Framed commemorative piece with official Quadro plaque' },
+          { name: 'Room Mounted Preview', img: 'quadro-assets/room-gaming.jpg', desc: 'How it looks mounted in an aesthetic gaming setup' }
+        ]
+      },
+      {
+        id: 'tokyo-neon-cyber',
+        title: 'Tokyo Cyber Neon 2088',
+        artist: 'Quadro Digital Studio',
+        cat: 'cyber',
+        price: 450,
+        mainImg: 'quadro-assets/neon-city.jpg',
+        badge: 'Best-Seller',
+        angles: [
+          { name: 'Front Center View', img: 'quadro-assets/neon-city.jpg', desc: 'High-definition digital neon master print' },
+          { name: 'Mounted in Gaming Battlestation', img: 'quadro-assets/room-gaming.jpg', desc: 'Mounted over battlestation with matching ambient RGB LEDs' },
+          { name: 'Bedroom Triptych Ambiance', img: 'quadro-assets/room-bedroom.jpg', desc: 'Part of modern bedroom illumination setup' }
+        ]
+      },
+      {
+        id: 'deep-cosmos',
+        title: 'Astronaut Deep Cosmos & Nebula',
+        artist: 'Cosmo Art Lab',
+        cat: 'space',
+        price: 450,
+        mainImg: 'quadro-assets/gold-cosmos.jpg',
+        badge: 'Luxury Cosmic',
+        angles: [
+          { name: 'Brushed Gold Frame Angle', img: 'quadro-assets/gold-cosmos.jpg', desc: 'Side perspective in luxury anodized gold aluminum frame' },
+          { name: 'Bedroom Triptych Ambiance', img: 'quadro-assets/room-bedroom.jpg', desc: 'Glowing triple panel mounted in luxury modern bedroom' }
+        ]
+      },
+      {
+        id: 'cyber-samurai',
+        title: 'Cyber Samurai 2088',
+        artist: 'Kenji Visuals',
+        cat: 'space',
+        price: 450,
+        mainImg: 'quadro-assets/anime-samurai.jpg',
+        badge: 'Anime Cyber',
+        angles: [
+          { name: 'Studio Spec Angle', img: 'quadro-assets/anime-samurai.jpg', desc: 'Studio lighting showcasing matte black border and plaque' },
+          { name: 'Mounted in Battlestation', img: 'quadro-assets/room-gaming.jpg', desc: 'Mounted over gaming setup with cyber violet backlighting' }
+        ]
+      },
+      {
+        id: 'porsche-night-spec',
+        title: 'Porsche GT Dark Spec Art',
+        artist: 'SpeedCulture Cairo',
+        cat: 'relief',
+        price: 450,
+        mainImg: 'quadro-assets/car-art.jpg',
+        badge: 'Speed Culture',
+        angles: [
+          { name: 'Dramatic Night Shot', img: 'quadro-assets/car-art.jpg', desc: 'Side-profile motion blur with studio lighting' },
+          { name: 'Mounted in Gaming Battlestation', img: 'quadro-assets/room-gaming.jpg', desc: 'Mounted beside glowing RGB battlestation' }
+        ]
+      }
+    ];
+
+    // Current State
+    const state = {
+      selectedArtId: 'spiderman-3d',
+      activeAngleImg: 'quadro-assets/spiderman-3d-duo.jpg',
+      studioTitle: 'Spider-Man 3D Typographic Duo',
+      frameMaterial: {
+        id: 'obsidian',
+        name: 'Matte Obsidian Black',
+        color: '#121216',
+        border: 'solid 14px #181820',
+        shadow: '0 10px 30px rgba(0,0,0,0.9)',
+        mult: 1.0
+      },
+      sizeOption: {
+        basePrice: 580,
+        label: 'A3 (30x42 cm)'
+      },
+      cartItems: [
+        {
+          id: 1,
+          title: 'Spider-Man 3D Typographic Duo Frame',
+          frame: 'Quadro Red Border',
+          size: 'A3 (30x42 cm)',
+          price: 580,
+          img: 'quadro-assets/spiderman-3d-duo.jpg'
+        }
+      ]
+    };
+
+    // Hero Flagship Switcher
+    function switchHeroFlagship(imgUrl, title, styleText, price, btnEl) {
+      playSynthSound(680);
+      document.getElementById('hero-frame-img').src = imgUrl;
+      document.getElementById('hero-art-title-txt').textContent = title;
+      document.getElementById('hero-art-style-txt').textContent = styleText;
+      document.getElementById('hero-art-price-txt').textContent = price;
+      document.querySelectorAll('.hero-style-dots-bar button').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    // =========================================================================
+    // "FEEL THE RELIEF" CRAFTSMANSHIP MULTI-MIX SHOWCASE ENGINE
+    // =========================================================================
+    const CRAFT_ITEMS = [
+      {
+        id: 'spiderman-duo',
+        cat: 'spiderman',
+        title: 'Spider-Man 3D Inverted Duo Set',
+        badge: 'Spider-Man 3D Inverted Duo Set',
+        badgeClass: 'badge-red',
+        tag: 'Multi-Layered Art',
+        img: 'quadro-assets/spiderman-3d-duo.jpg',
+        price: 990,
+        feat1Title: '1. Inverted Duo Companion Set',
+        feat1Desc: 'Both black and red editions framed side-by-side. The red frame features black typographic relief, while the companion features inverted crimson lettering.',
+        feat2Title: '2. 3D Corner Spider & Web Sculptures',
+        feat2Desc: 'Laser-cut corner-climbing spider on the top edge and embossed Quadro borders web on the lower edge.',
+        feat3Title: '3. Hand-Layered Real Wooden Depth',
+        feat3Desc: 'Each character in SPIDER-MAN is cut from genuine wood board and elevated above the backdrop for real tactile presence.'
+      },
+      {
+        id: 'spiderman-spider',
+        cat: 'spiderman',
+        title: 'Spider-Man 3D Corner Spider Sculpture',
+        badge: 'Corner Spider Sculpture Detail',
+        badgeClass: 'badge-red',
+        tag: 'Corner Sculpture',
+        img: 'quadro-assets/spiderman-3d-corner-spider.jpg',
+        price: 580,
+        feat1Title: '1. Tactile Multi-Legged Spider Sculpture',
+        feat1Desc: 'A physical wooden spider rests on the outer corner of the red frame, overlapping the frame border.',
+        feat2Title: '2. Smooth Satin Finish',
+        feat2Desc: 'Hand-painted in deep obsidian matte with crisp laser-cut anatomical legs.',
+        feat3Title: '3. Seamless Integrated Mount',
+        feat3Desc: 'Permanently adhered to the corner join for lifetime durability.'
+      },
+      {
+        id: 'spiderman-web',
+        cat: 'spiderman',
+        title: 'Spider-Man Corner 3D Web & Quadro Engraving',
+        badge: 'Corner 3D Spider Web Detail',
+        badgeClass: 'badge-red',
+        tag: 'Laser Webbing',
+        img: 'quadro-assets/spiderman-3d-corner-web.jpg',
+        price: 580,
+        feat1Title: '1. Geometric 3D Spider Web',
+        feat1Desc: 'Delicate laser-cut wooden spider web spanning the corner of the frame.',
+        feat2Title: '2. Official Quadro Borders Brand Mark',
+        feat2Desc: 'Laser-engraved "Quadro borders" emblem on the bottom-left corner certifies authentic craftsmanship.',
+        feat3Title: '3. Multi-Tier Optical Shadow',
+        feat3Desc: 'Casts a gentle natural drop shadow onto the black inner matting.'
+      },
+      {
+        id: 'spiderman-hanging',
+        cat: 'spiderman',
+        title: 'Spider-Man Hanging Spider Web Detail',
+        badge: 'Hanging Spider Thread Detail',
+        badgeClass: 'badge-red',
+        tag: 'Sculptural Detail',
+        img: 'quadro-assets/spiderman-3d-hanging-spider.jpg',
+        price: 580,
+        feat1Title: '1. Descending Web Thread',
+        feat1Desc: 'Thin laser-cut wood line depicting the spider descending into the frame mask.',
+        feat2Title: '2. Contrasting Dual-Color Relief',
+        feat2Desc: 'Pitch black spider sculpture against intense crimson textured board.',
+        feat3Title: '3. Hand-Beveled Edge Transitions',
+        feat3Desc: 'Smooth edges prevent dust accumulation and enhance clean shadow lines.'
+      },
+      {
+        id: 'porsche-depth',
+        cat: 'porsche',
+        title: 'Porsche GT3 RS 3D Wooden Lettering Depth',
+        badge: '4mm Wooden Lettering Elevation',
+        badgeClass: 'badge-gold',
+        tag: 'Tactile Wood Relief',
+        img: 'quadro-assets/porsche-3d-depth.jpg',
+        price: 550,
+        feat1Title: '1. 4mm Physical Elevation',
+        feat1Desc: 'The letters of "PORSCHE" stand 4mm proud of the parchment kraft backing, casting bold natural shadows.',
+        feat2Title: '2. Wood-Grain Texture Backing',
+        feat2Desc: 'Vintage technical drawing paper with authentic fiber texture.',
+        feat3Title: '3. Matte Black Laser Precision',
+        feat3Desc: 'Razor-sharp cutouts that capture light at varying room angles.'
+      },
+      {
+        id: 'porsche-angle',
+        cat: 'porsche',
+        title: 'Porsche GT3 RS Perspective Ambient Angle',
+        badge: 'Perspective Room Light Angle',
+        badgeClass: 'badge-gold',
+        tag: 'Perspective View',
+        img: 'quadro-assets/porsche-3d-angle.jpg',
+        price: 550,
+        feat1Title: '1. Dynamic Light Play',
+        feat1Desc: 'Shows how side lamps and room LEDs create highlights across the wooden typography and car illustration.',
+        feat2Title: '2. Clean Border Bevel',
+        feat2Desc: 'Slim matte black anodized frame profile holding the thick relief assembly securely.',
+        feat3Title: '3. 3D Homologation Poster',
+        feat3Desc: 'Detailed line art of the rear wing, diffuser, and center-lock wheels.'
+      },
+      {
+        id: 'porsche-full',
+        cat: 'porsche',
+        title: 'Porsche GT3 RS Full Technical Spec Frame',
+        badge: 'Complete Spec Sheet & Relief',
+        badgeClass: 'badge-gold',
+        tag: 'Automotive Flagship',
+        img: 'quadro-assets/porsche-3d-full.jpg',
+        price: 550,
+        feat1Title: '1. Factory Specification Metrics',
+        feat1Desc: '386 kW / 525 PS, 0-100 km/h in 3.2s, Top Speed 296 km/h accurately documented.',
+        feat2Title: '2. Official Porsche Shield & RS Logo',
+        feat2Desc: 'High-definition historical motorsport insignia in the top header.',
+        feat3Title: '3. Collector Grade Packaging',
+        feat3Desc: 'Delivered in rigid foam-padded luxury casing with pre-installed wall brackets.'
+      },
+      {
+        id: 'salah-frame',
+        cat: 'heritage',
+        title: 'Salah · Egypt 2026 World Cup Historic Win',
+        badge: 'Every Wall Starts With Quadro Plaque',
+        badgeClass: 'badge-cyan',
+        tag: 'Sports Heritage',
+        img: 'quadro-assets/salah-worldcup-frame.jpg',
+        price: 490,
+        feat1Title: '1. Historic Egyptian Moment',
+        feat1Desc: 'Captures the raw emotion of Egypt’s historic World Cup knockout triumph under stadium floodlights.',
+        feat2Title: '2. Commemorative Quadro Signature Plaque',
+        feat2Desc: 'Accompanied by the official "Every Wall Starts With Quadro." desktop steel plaque with isometric Q logo.',
+        feat3Title: '3. Museum Quality Glazing',
+        feat3Desc: 'Crystal-clear acrylic front protecting the vibrant print colors from UV fading.'
+      },
+      {
+        id: 'gold-cosmos-angle',
+        cat: 'heritage',
+        title: 'Astronaut Cosmos in Brushed Gold Frame',
+        badge: 'Luxury Brushed Gold Aluminum',
+        badgeClass: 'badge-gold',
+        tag: 'Metallic Luxury',
+        img: 'quadro-assets/gold-cosmos.jpg',
+        price: 450,
+        feat1Title: '1. Anodized Brushed Gold Profile',
+        feat1Desc: 'Warm metallic finish that complements interior bronze and warm LED lighting.',
+        feat2Title: '2. Cosmic Nebula Color Gamut',
+        feat2Desc: 'Deep indigo and electric cyan star clouds with glittering stardust highlights.',
+        feat3Title: '3. Quadro Egypt Brass Seal',
+        feat3Desc: 'Includes engraved Quadro Borders Egypt commemorative metal tag.'
+      },
+      {
+        id: 'cyber-samurai-angle',
+        cat: 'heritage',
+        title: 'Cyber Samurai 2088 Neon Art Spec',
+        badge: 'Studio Matte Black Showcase',
+        badgeClass: 'badge-cyan',
+        tag: 'Cyberpunk Aesthetic',
+        img: 'quadro-assets/anime-samurai.jpg',
+        price: 450,
+        feat1Title: '1. Cyberpunk 2077 Vibe',
+        feat1Desc: 'Rain-soaked Neo-Tokyo street with neon reflections, katana glow, and Kanji typography.',
+        feat2Title: '2. Deep Obsidian Matte Frame',
+        feat2Desc: 'Zero-reflection border keeping total visual focus on the glowing art.',
+        feat3Title: '3. Studio Master Quality',
+        feat3Desc: 'Printed on 300gsm acid-free fine art card stock.'
+      }
+    ];
+
+    let activeCraftItem = CRAFT_ITEMS[0];
+
+    function renderCraftThumbnails(filter = 'all') {
+      const container = document.getElementById('craft-thumbnails-grid');
+      const filtered = filter === 'all' ? CRAFT_ITEMS : CRAFT_ITEMS.filter(item => item.cat === filter);
+
+      container.innerHTML = filtered.map(item => {
+        const isActive = item.id === activeCraftItem.id;
+        return `
+          <button class="craft-thumb-btn ${isActive ? 'active' : ''}" onclick="selectCraftItem('${item.id}', this)" title="${item.title}">
+            <img src="${item.img}" alt="${item.title}">
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectCraftItem(itemId, btnEl) {
+      playSynthSound(560);
+      const item = CRAFT_ITEMS.find(i => i.id === itemId);
+      if (!item) return;
+      activeCraftItem = item;
+
+      // Update main display
+      const mainImg = document.getElementById('craft-main-display-img');
+      mainImg.classList.remove('loaded');
+      mainImg.src = item.img;
+
+      // Badge & tag
+      const badgeEl = document.getElementById('craft-badge-txt');
+      badgeEl.textContent = item.badge;
+      badgeEl.className = `badge ${item.badgeClass || 'badge-cyan'}`;
+
+      const tagEl = document.getElementById('craft-detail-tag');
+      tagEl.textContent = item.tag;
+      tagEl.className = `badge ${item.badgeClass || 'badge-red'}`;
+
+      // Titles & features
+      document.getElementById('craft-detail-title').textContent = item.title;
+      document.getElementById('craft-feat1-title').textContent = item.feat1Title;
+      document.getElementById('craft-feat1-desc').textContent = item.feat1Desc;
+      document.getElementById('craft-feat2-title').textContent = item.feat2Title;
+      document.getElementById('craft-feat2-desc').textContent = item.feat2Desc;
+      document.getElementById('craft-feat3-title').textContent = item.feat3Title;
+      document.getElementById('craft-feat3-desc').textContent = item.feat3Desc;
+
+      // Order button text
+      document.getElementById('craft-order-primary-btn').textContent = `🛒 Add This Piece to Cart (${item.price} EGP)`;
+
+      // Update active thumbnail border
+      document.querySelectorAll('#craft-thumbnails-grid .craft-thumb-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function filterCraftMix(cat, btnEl) {
+      playSynthSound(500);
+      document.querySelectorAll('.craft-pill').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      renderCraftThumbnails(cat);
+
+      // Select first item in filtered set
+      const firstFiltered = cat === 'all' ? CRAFT_ITEMS[0] : CRAFT_ITEMS.find(i => i.cat === cat);
+      if (firstFiltered) {
+        selectCraftItem(firstFiltered.id, null);
+      }
+    }
+
+    function addCurrentCraftToCart() {
+      addRealPieceToCart(activeCraftItem.title, activeCraftItem.price, activeCraftItem.img);
+    }
+
+    function openCurrentCraftInStudio() {
+      // Find matching artwork in library if any
+      let matched = ARTWORK_LIBRARY.find(a => a.angles.some(ang => ang.img === activeCraftItem.img));
+      if (!matched) matched = ARTWORK_LIBRARY[0];
+      selectStudioArtworkPiece(matched.id, null);
+      switchStudioAngle(activeCraftItem.img, activeCraftItem.title, null);
+    }
+
+    // =========================================================================
+    // FULL-SCREEN HD LIGHTBOX CONTROLLER
+    // =========================================================================
+    function openLightbox(src, title) {
+      if (!src) return;
+      playSynthSound(750);
+      const modal = document.getElementById('image-lightbox-modal');
+      const img = document.getElementById('lightbox-full-img');
+      const titleEl = document.getElementById('lightbox-title-txt');
+      img.src = src;
+      titleEl.textContent = title || 'Quadro Borders Artwork';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('image-lightbox-modal') && !e.target.classList.contains('lightbox-close-btn')) return;
+      playSynthSound(440);
+      const modal = document.getElementById('image-lightbox-modal');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function addLightboxPieceToCart() {
+      const src = document.getElementById('lightbox-full-img').src;
+      const title = document.getElementById('lightbox-title-txt').textContent;
+      addRealPieceToCart(title, 550, src);
+      closeLightbox();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('image-lightbox-modal');
+        if (modal && modal.classList.contains('open')) {
+          closeLightbox();
+        }
+      }
+    });
+
+    // =========================================================================
+    // DYNAMIC STUDIO CUSTOMIZER & MULTI-ANGLE ENGINE
+    // =========================================================================
+    function renderStudioArtThumbnails() {
+      const container = document.getElementById('studio-art-mix-grid');
+      container.innerHTML = ARTWORK_LIBRARY.map(art => {
+        const isActive = art.id === state.selectedArtId;
+        return `
+          <button class="art-thumb-btn ${isActive ? 'active' : ''}" onclick="selectStudioArtworkPiece('${art.id}', this)" title="${art.title}">
+            <img src="${art.mainImg}" alt="${art.title}">
+            <span class="art-angles-badge">${art.angles.length} 📸</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectStudioArtworkPiece(artId, btnEl) {
+      playSynthSound(620);
+      const art = ARTWORK_LIBRARY.find(a => a.id === artId);
+      if (!art) return;
+
+      state.selectedArtId = art.id;
+      state.studioTitle = art.title;
+      state.sizeOption.basePrice = art.price;
+      state.activeAngleImg = art.mainImg;
+
+      // Update main render
+      const previewImg = document.getElementById('studio-art-preview-img');
+      previewImg.classList.remove('loaded');
+      previewImg.src = art.mainImg;
+
+      // Mirror to visualizer
+      document.getElementById('room-projected-art-img').src = art.mainImg;
+
+      // Update active state in grid
+      document.querySelectorAll('#studio-art-mix-grid .art-thumb-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+
+      // Update multi-angles dynamic row
+      renderStudioAnglesRow(art);
+      recalcStudioPrice();
+    }
+
+    function renderStudioAnglesRow(art) {
+      const container = document.getElementById('studio-dynamic-angles-container');
+      const countBadge = document.getElementById('studio-angle-count-badge');
+      countBadge.textContent = `${art.angles.length} Angles`;
+
+      container.innerHTML = art.angles.map((ang, idx) => {
+        const isCurrent = ang.img === state.activeAngleImg;
+        return `
+          <button class="angle-btn-pill ${isCurrent ? 'active' : ''}" onclick="switchStudioAngle('${ang.img}', '${ang.name}', this)">
+            <img src="${ang.img}" alt="${ang.name}">
+            <span>${ang.name}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function switchStudioAngle(imgUrl, angleName, btnEl) {
+      playSynthSound(540);
+      state.activeAngleImg = imgUrl;
+
+      const previewImg = document.getElementById('studio-art-preview-img');
+      previewImg.classList.remove('loaded');
+      previewImg.src = imgUrl;
+
+      document.getElementById('room-projected-art-img').src = imgUrl;
+
+      document.querySelectorAll('#studio-dynamic-angles-container .angle-btn-pill').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function handleCustomPhotoUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        state.activeAngleImg = url;
+        state.studioTitle = 'Custom Uploaded Photo';
+        document.getElementById('studio-art-preview-img').src = url;
+        document.getElementById('room-projected-art-img').src = url;
+
+        document.getElementById('studio-dynamic-angles-container').innerHTML = `
+          <button class="angle-btn-pill active">
+            <img src="${url}">
+            <span>Custom Upload View</span>
+          </button>
+        `;
+        document.getElementById('studio-angle-count-badge').textContent = '1 Angle';
+      }
+    }
+
+    function setStudioFrameMaterial(id, color, border, shadow, mult, name, btnEl) {
+      playSynthSound(680);
+      state.frameMaterial = { id, color, border, shadow, mult, name };
+      const frameBox = document.getElementById('studio-rendered-frame');
+      frameBox.style.background = color;
+      frameBox.style.border = border;
+      frameBox.style.boxShadow = shadow;
+
+      const roomMount = document.getElementById('room-projected-frame');
+      roomMount.style.borderColor = color;
+      roomMount.style.boxShadow = shadow;
+
+      document.querySelectorAll('.material-opt-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      recalcStudioPrice();
+    }
+
+    function setStudioSizeOption(basePrice, label, btnEl) {
+      playSynthSound(520);
+      state.sizeOption = { basePrice, label };
+      document.querySelectorAll('.size-opt-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      recalcStudioPrice();
+    }
+
+    function setStudioMattingOption(color, pad, btnEl) {
+      playSynthSound(480);
+      const mattingBox = document.getElementById('studio-matting-box');
+      mattingBox.style.background = color;
+      mattingBox.style.padding = `${pad}px`;
+      document.querySelectorAll('.matting-pill-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    function recalcStudioPrice() {
+      const price = Math.round(state.sizeOption.basePrice * state.frameMaterial.mult);
+      document.getElementById('studio-calculated-price-txt').textContent = price + ' EGP';
+      return price;
+    }
+
+    function syncStudioToVisualizer() {
+      document.getElementById('room-projected-art-img').src = state.activeAngleImg;
+    }
+
+    function addCustomFrameToCart() {
+      const price = recalcStudioPrice();
+      state.cartItems.push({
+        id: Date.now(),
+        title: state.studioTitle,
+        frame: state.frameMaterial.name,
+        size: state.sizeOption.label,
+        price: price,
+        img: state.activeAngleImg
+      });
+      renderCartDrawerItems();
+      toggleCart(true);
+      confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+    }
+
+    function addRealPieceToCart(name, price, imgUrl) {
+      state.cartItems.push({
+        id: Date.now(),
+        title: name,
+        frame: '3D Wooden Relief',
+        size: 'A3 (30x42 cm)',
+        price: price,
+        img: imgUrl
+      });
+      renderCartDrawerItems();
+      toggleCart(true);
+      confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+    }
+
+    function addBundleSetToCart(name, price) {
+      state.cartItems.push({
+        id: Date.now(),
+        title: name,
+        frame: 'Curated Set',
+        size: 'Multi-frame Set',
+        price: price,
+        img: 'quadro-assets/spiderman-3d-duo.jpg'
+      });
+      renderCartDrawerItems();
+      toggleCart(true);
+      confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+    }
+
+    function switchRoomBackdrop(url, btnEl) {
+      playSynthSound(580);
+      document.getElementById('room-backdrop-screen').src = url;
+      document.querySelectorAll('.room-btns-group button').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
+
+    // =========================================================================
+    // CATALOG WITH MULTI-ANGLE INSPECT BUTTON
+    // =========================================================================
+    function renderCatalogCards(filter = 'all') {
+      const container = document.getElementById('catalog-products-container');
+      const filtered = filter === 'all' ? ARTWORK_LIBRARY : ARTWORK_LIBRARY.filter(p => p.cat === filter);
+
+      container.innerHTML = filtered.map(prod => `
+        <div class="product-art-card glass-card-3d" onmousemove="tiltCard(event, this)" onmouseleave="resetCardTilt(this)">
+          <div class="product-thumb-holder img-loading-shimmer" onclick="openLightbox('${prod.mainImg}', '${prod.title}')" style="cursor: pointer;" title="Click to view 100% full uncropped image">
+            <img class="smooth-img" src="${prod.mainImg}" onload="this.classList.add('loaded')" alt="${prod.title}">
+            <div style="position: absolute; top: 12px; left: 12px;">
+              <span class="badge badge-cyan">${prod.badge}</span>
+            </div>
+            <div style="position: absolute; bottom: 8px; right: 8px;">
+              <span class="badge badge-gold" style="font-size:0.65rem;">${prod.angles.length} Angles 📸</span>
+            </div>
+          </div>
+          <div class="product-details-body">
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 700; color: var(--neon-cyan); text-transform: uppercase; margin-bottom: 4px;">${prod.artist}</div>
+              <div style="font-size: 1rem; font-weight: 800; margin-bottom: 8px; line-height: 1.3;">${prod.title}</div>
+              <div style="font-size: 1.2rem; font-weight: 900; color: var(--neon-lime); margin-bottom: 12px;">${prod.price} EGP <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/ A3 Std</span></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 8px;">
+              <button onclick="inspectArtworkInStudio('${prod.id}')" class="btn btn-cyber-secondary" style="padding: 8px 10px; font-size: 0.78rem; border-radius: 10px;">
+                🔍 Angles & 3D
+              </button>
+              <button onclick="quickAddToCart('${prod.id}')" class="btn btn-cyber-primary" style="padding: 8px 10px; font-size: 0.78rem; border-radius: 10px;">
+                🛒 Add
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function inspectArtworkInStudio(artId) {
+      selectStudioArtworkPiece(artId, null);
+      document.getElementById('customizer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterCatalogCards(cat, btnEl) {
+      playSynthSound(500);
+      document.querySelectorAll('.catalog-pill-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      renderCatalogCards(cat);
+    }
+
+    function quickAddToCart(artId) {
+      const prod = ARTWORK_LIBRARY.find(p => p.id === artId);
+      if (!prod) return;
+      state.cartItems.push({
+        id: Date.now(),
+        title: prod.title,
+        frame: 'Quadro Border',
+        size: 'A3 (30x42 cm)',
+        price: prod.price,
+        img: prod.mainImg
+      });
+      renderCartDrawerItems();
+      toggleCart(true);
+      confetti({ particleCount: 80, spread: 65, origin: { y: 0.6 } });
+    }
+
+    // Cart Drawer Logic
+    function renderCartDrawerItems() {
+      const listContainer = document.getElementById('cart-items-rendered-list');
+      if (state.cartItems.length === 0) {
+        listContainer.innerHTML = `<p style="text-align:center;color:var(--text-muted);padding:30px 0;">Your cart is currently empty.</p>`;
+      } else {
+        listContainer.innerHTML = state.cartItems.map((item, index) => `
+          <div class="cart-item-card">
+            <img class="cart-item-thumb" src="${item.img}" alt="${item.title}">
+            <div style="flex-grow: 1; min-width: 0;">
+              <div style="font-weight: 800; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.title}</div>
+              <div style="font-size: 0.74rem; color: var(--neon-cyan); margin-top: 2px;">${item.frame} · ${item.size}</div>
+              <div style="font-weight: 900; color: var(--neon-lime); margin-top: 4px; font-size: 0.95rem;">${item.price} EGP</div>
+            </div>
+            <button onclick="removeCartItemByIndex(${index})" style="background: none; border: none; color: var(--neon-pink); cursor: pointer; font-size: 1.1rem; padding: 6px;">🗑️</button>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('cart-badge-count').textContent = state.cartItems.length;
+      recalculateCartGrandTotal();
+    }
+
+    function removeCartItemByIndex(index) {
+      playSynthSound(350);
+      state.cartItems.splice(index, 1);
+      renderCartDrawerItems();
+    }
+
+    function recalculateCartGrandTotal() {
+      const subtotal = state.cartItems.reduce((acc, item) => acc + item.price, 0);
+      const shipFee = state.cartItems.length > 0 ? (parseInt(document.getElementById('egypt-shipping-select').value) || 45) : 0;
+      const grandTotal = subtotal + shipFee;
+
+      document.getElementById('cart-subtotal-txt').textContent = subtotal + ' EGP';
+      document.getElementById('cart-shipping-txt').textContent = shipFee + ' EGP';
+      document.getElementById('cart-grandtotal-txt').textContent = grandTotal + ' EGP';
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById('cart-drawer-overlay');
+      if (open) {
+        drawer.classList.add('open');
+        renderCartDrawerItems();
+      } else {
+        drawer.classList.remove('open');
+      }
+    }
+
+    function handleCartOverlayClick(e) {
+      if (e.target === document.getElementById('cart-drawer-overlay')) {
+        toggleCart(false);
+      }
+    }
+
+    function dispatchWhatsAppOrder() {
+      const name = document.getElementById('cust-full-name').value.trim();
+      const phone = document.getElementById('cust-whatsapp-phone').value.trim();
+      const addr = document.getElementById('cust-delivery-addr').value.trim();
+      const govSelect = document.getElementById('egypt-shipping-select');
+      const govName = govSelect.options[govSelect.selectedIndex].text;
+
+      if (!name || !phone || !addr) {
+        alert('Please fill in your name, WhatsApp phone number, and delivery address.');
+        return;
+      }
+
+      confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+
+      let orderText = `🚨 *New Order from Quadro Borders* 🚨\n`;
+      orderText += `--------------------------------------\n`;
+      orderText += `👤 *Customer Name:* ${name}\n`;
+      orderText += `📱 *WhatsApp:* ${phone}\n`;
+      orderText += `📍 *Delivery Address:* ${addr}\n`;
+      orderText += `🚚 *Shipping Zone:* ${govName}\n`;
+      orderText += `--------------------------------------\n\n`;
+      orderText += `🛒 *Items Ordered:*\n`;
+
+      state.cartItems.forEach((item, idx) => {
+        orderText += `${idx + 1}. *${item.title}*\n`;
+        orderText += `   - Frame: ${item.frame}\n`;
+        orderText += `   - Size: ${item.size}\n`;
+        orderText += `   - Price: ${item.price} EGP\n\n`;
+      });
+
+      orderText += `--------------------------------------\n`;
+      orderText += `💰 *Grand Total:* ${document.getElementById('cart-grandtotal-txt').textContent}\n`;
+      orderText += `--------------------------------------\n`;
+      orderText += `Every Wall Starts With Quadro. ✨`;
+
+      const encoded = encodeURIComponent(orderText);
+      const whatsappUrl = `https://wa.me/201000000000?text=${encoded}`;
+
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 500);
+    }
+
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      const backdrop = document.getElementById('mobile-drawer-backdrop');
+      const hamburger = document.getElementById('hamburger-toggle');
+      const isOpen = drawer.classList.contains('open');
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        drawer.classList.add('open');
+        if (backdrop) backdrop.classList.add('open');
+        if (hamburger) hamburger.classList.add('open');
+        playSynthSound(600);
+      }
+    }
+
+    function closeMobileMenu() {
+      const drawer = document.getElementById('mobile-drawer');
+      const backdrop = document.getElementById('mobile-drawer-backdrop');
+      const hamburger = document.getElementById('hamburger-toggle');
+      if (drawer) drawer.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+      if (hamburger) hamburger.classList.remove('open');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 40);
+      updateActiveNavOnScroll();
+    });
+
+    // =========================================================================
+    // SCROLL SPY & SECTION ACTIVATOR
+    // =========================================================================
+    function updateActiveNavOnScroll() {
+      const sections = ['hero', 'craftsmanship', 'customizer', 'visualizer', 'wallsets', 'catalog'];
+      const scrollPos = window.scrollY + 160;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const secEl = document.getElementById(sections[i]);
+        if (secEl && secEl.offsetTop <= scrollPos) {
+          document.querySelectorAll('.desktop-nav .nav-link-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-section') === sections[i]);
+          });
+          break;
+        }
+      }
+    }
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    updateActiveNavOnScroll();
+    renderCraftThumbnails('all');
+    selectCraftItem('spiderman-duo', null);
+
+    renderStudioArtThumbnails();
+    const initialArt = ARTWORK_LIBRARY.find(a => a.id === state.selectedArtId);
+    if (initialArt) renderStudioAnglesRow(initialArt);
+
+    renderCatalogCards('all');
+    renderCartDrawerItems();
+    recalcStudioPrice();
+  </script>
+
+
+  <!-- ==================== MOBILE APP BOTTOM DOCK ==================== -->
+  <nav class="mobile-bottom-dock" id="mobile-dock">
+    <a href="#hero" class="dock-item-btn active" onclick="playSynthSound(480)">
+      <span class="dock-icon">🏠</span>
+      <span>Home</span>
+    </a>
+    <a href="#craftsmanship" class="dock-item-btn" onclick="playSynthSound(520)">
+      <span class="dock-icon">🪵</span>
+      <span>3D Relief</span>
+    </a>
+    <a href="#customizer" class="dock-item-btn" onclick="playSynthSound(560)">
+      <span class="dock-icon">🛠️</span>
+      <span>Studio</span>
+    </a>
+    <a href="#catalog" class="dock-item-btn" onclick="playSynthSound(600)">
+      <span class="dock-icon">🔥</span>
+      <span>Catalog</span>
+    </a>
+    <button class="dock-item-btn" onclick="toggleCart(true); playSynthSound(700);" style="position: relative;">
+      <span class="dock-icon">🛒</span>
+      <span>Cart</span>
+      <span id="mobile-dock-cart-badge" style="position: absolute; top: 1px; right: 8px; background: var(--neon-pink); color:#fff; border-radius:50%; width:15px; height:15px; font-size:0.58rem; display:flex; align-items:center; justify-content:center; font-weight:900;">1</span>
+    </button>
+  </nav>
+
+</body>
+</html>
